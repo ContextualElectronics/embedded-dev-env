@@ -1,0 +1,4 @@
+*.vdi
+.vagrant
+*.bin
+id_rsa*
