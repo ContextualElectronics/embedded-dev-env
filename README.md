@@ -1,5 +1,11 @@
 # Vagrant-based VirtualBox environment for STM32 ARM Development using Ubuntu 14.04 Server
 
+## Attention!
+
+This project requires a relatively recent computer that supports Hardware Virtualization. You MUST make sure you have AMD-V or VT-x extensions enabled in your computer's BIOS otherwise the Virtual Machine will not boot!
+
+If you encounter other problems, check out the [Gotchas](#gotchas) section below
+
 ## Host OS Requirements
 
 *  Relatively recent computer that supports Hardware Virtualization. Make sure you have AMD-V or VT-x extensions enabled in your computer's BIOS!
@@ -40,3 +46,11 @@
 
 *  Open a terminal, navigate to the unzipped folder, execute `vagrant destroy` This will delete the VM from your system.
 
+## Gotchas
+
+If you are using Windows and receive an error that the Vagrant Home Directory can't have spaces in it due to a bug in Ruby, your User home directory probably has a space in it.
+
+* Create a folder "home" within C:\Hashicorp\Vagrant - `C:\Hashicorp\Vagrant\home` ( This assumes you used the default install directory for Vagrant )
+* Add the environment variable `VAGRANT_HOME` to Windows, see [http://www.computerhope.com/issues/ch000549.htm](http://www.computerhope.com/issues/ch000549.htm) if you don't know how.
+* Reboot your system for the new environment variable to take effect.
+* Try again...
