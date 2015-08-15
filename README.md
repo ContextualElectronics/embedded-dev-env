@@ -21,7 +21,7 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 *  Unzip on your local system
 *  Open a terminal, navigate to the unzipped folder, execute `vagrant up`
 *  Most likely your system will not have the necessary Vagrant plugins installed, so Vagrant will install them first and prompt for you to restart `vagrant up`
-*  Go get something to drink, eat, or otherwise occupy your time as it will take a while to download the 3.0+GB base box from the Atlas cloud.
+*  Go get something to drink, eat, or otherwise occupy your time as it will take a while to download the 2.1+GB base box from the Atlas cloud.
 *  Eventually you will have an Ubuntu Desktop that is prompting you to log in. The password is `contextual`
 
 ## Installed Tools
