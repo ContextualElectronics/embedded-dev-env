@@ -2,3 +2,4 @@
 .vagrant
 *.bin
 id_rsa*
+.DS_Store
