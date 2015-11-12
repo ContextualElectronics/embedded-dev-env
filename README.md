@@ -13,8 +13,8 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 
 ## Prerequisites before you begin building the virtual machine
 
-*  Install VirtualBox v5.0.0 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-*  Install VirtualBox Extension Pack v5.0.0 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install VirtualBox v5.0.10 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install VirtualBox Extension Pack v5.0.10 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 *  Install Vagrant v1.7.4 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 *  If you haven't already installed the above items, you will most likely be asked to reboot your computer, please do so before continuing...
 
@@ -22,7 +22,7 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 
 *  Download a copy of this repository as a zip file
 *  Unzip on your local system
-*  Open a terminal/command prompt, navigate to the unzipped folder, execute `vagrant up`
+*  Open a terminal/command prompt (if on Windows, launch command window as an Administrator), navigate to the unzipped folder, execute `vagrant up`
 *  If you have never used Vagrant before, Vagrant will try to install some required plugins the first time you execute `vagrant up`. Vagrant will install them first, prompt for you to restart `vagrant up`, then exit the program. Execute `vagrant up` to continue building the Virtual Machine after the plugins install.
 *  Go get something to drink, eat, or otherwise occupy your time as it will take a while to download the 2.1+GB base box from the Atlas cloud.
 *  Eventually you will have an Ubuntu Desktop that is prompting you to log in. The password is `contextual`
