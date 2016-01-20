@@ -49,7 +49,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # The following packages were removed:
   #
   # thunderbird
-  # libreoffice
   # rythmbox
   # empathy
   # ubuntu-docs
@@ -64,7 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.box = "kumichou/ce_embedded"
-  config.vm.hostname = "stm32-eclipse"
+  config.vm.hostname = "CE-embedded-dev-env"
 
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
@@ -107,19 +106,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Setup rule to automatically attach ST Link v2.1 Debugger when plugging in Nucleo board
     BetterUSB.usbfilter_add(vb, "0x0483", "0x374b", "ST Link v2.1 Nucleo")
 
+    # Setup rule to automatically attach Freescale Debugger when plugging in Nucleo board
+    BetterUSB.usbfilter_add(vb, "0x0d28", "0x0204", "Freescale freedom")
+
     # Set the timesync threshold to 10 seconds, instead of the default 20 minutes.
     vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
 
-  end
-
-  if [:macosx, :linux, :unix].include? OsDetector.os
-    # Assumes you have Git, Vim & OpenSSH installed on your *nix host system already.
-
-    config.vm.provision :copy_my_conf do |copy_conf|
-      copy_conf.git
-      copy_conf.vim
-      copy_conf.ssh
-    end
   end
 
 end

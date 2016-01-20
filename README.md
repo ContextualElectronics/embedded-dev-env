@@ -13,9 +13,9 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 
 ## Prerequisites before you begin building the virtual machine
 
-*  Install VirtualBox v5.0.10 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-*  Install VirtualBox Extension Pack v5.0.10 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-*  Install Vagrant v1.7.4 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
+*  Install VirtualBox v5.0.14 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install VirtualBox Extension Pack v5.0.14 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install Vagrant v1.8.1 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 *  If you haven't already installed the above items, you will most likely be asked to reboot your computer, please do so before continuing...
 
 ## Building the environment for the first time
@@ -29,7 +29,7 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 
 ## Installed Tools
 
-*  Eclipse 4.4 (Luna)
+*  Eclipse 4.5 (Mars)
 *  Eclipse CDT for C/C++
 *  EmbSysRegViewer for Eclipse
 *  TCF Terminal View for Eclipse
@@ -39,15 +39,40 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 *  Vim Text Editor
 *  ack-grep
 *  Git
+*  Subversion
+*  Mercurial
+*  Bazaar
 *  stlink command line tools
-*  OpenOCD 0.9.0 2015-05-19 Release
-*  GNU ARM Tools 2015-Q2 Release
+*  OpenOCD 0.10.x (most current source code)
+*  GNU ARM Tools 2015-Q3 Release
 *  Firefox web browser
 *  KiCAD EDA Software Suite
+*  CoolTerm
+*  Putty SSH Client
+*  Unity Tweak Tool (adjust Unity UI performance)
+*  OpenSCAD
+*  FreeCAD
+
+## Installed Programming Languages
+
+*  GNU C/C++
+*  Python 2.7.6
+*  Python 3.4.3
+*  Ruby 2.2.4
+*  NodeJS 5.4.1 (npm 3.3.12)
+*  Perl 5.18.2
+*  OpenJDK 7
+*  Go >= 1.5
+*  Rust >= 1.4.x
+*  Elixir >= 1.2.x
 
 ## Removing the Dev Environment Image from your hard drive
 
 *  Open a terminal, navigate to the unzipped folder, execute `vagrant destroy` This will delete the VM from your system.
+
+## Updating from an older version of the image
+
+The Vagrant system doesn't allow you to update/upgrade your existing image to a newer one. You will be required to back up your ~/.ssh/ directory (and make sure all of your code is checked into a remote source code repository) then you can `vagrant destroy` your existing image, pull down the latest code from the ContextualElectronics GitHub repo for stm32-eclipse-linux-trusty64 then you can `vagrant up` to build the new version of the environment. After that is complete, don't forget to restore the contents of your ~/.ssh/ directory so that your SSH key will match what you have previously.
 
 ## Gotchas
 
@@ -57,3 +82,12 @@ If you are using Windows and receive an error that the Vagrant Home Directory ca
 * Add the environment variable `VAGRANT_HOME` to Windows, see [http://www.computerhope.com/issues/ch000549.htm](http://www.computerhope.com/issues/ch000549.htm) if you don't know how.
 * Reboot your system for the new environment variable to take effect.
 * Try again...
+
+### Confirm VT-x or AMD-V CPU Extension Support
+
+Check your CPU on the Intel website to see if it supports VT-x. If you have an AMD processor, confirm that it supports AMD-V extensions. Then, make sure to turn on Virtualization support in your BIOS. Apple computers that have a compatible Intel processor already have the VT-x extensions enabled in EFI.
+
+### Hyper-V interfering with VirtualBox
+
+If needed, turn off Hyper-V (go to Windows Features on your machine and uncheck Hyper-v – in Win10 use the search box on the bottom toolbar to get to the Windows Features)
+
