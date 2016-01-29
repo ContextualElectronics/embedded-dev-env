@@ -3,3 +3,7 @@
 *.bin
 id_rsa*
 .DS_Store
+
+SharedTools/downloads
+SharedTools/log.txt
+backups/
