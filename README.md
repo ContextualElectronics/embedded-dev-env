@@ -83,6 +83,8 @@ If you are using Windows and receive an error that the Vagrant Home Directory ca
 * Reboot your system for the new environment variable to take effect.
 * Try again...
 
+There has been a security update to Windows 10 that prevents the vagrant-vbguest plugin from working properly. If you are using Windows 10 and downloaded an earlier version of this repository, please remove the VBGuest plugin by running `vagrant plugin uninstall vagrant-vbguest`. When the plugin is updated with a workaround, we will update the Vagrantfile in the project to make sure that the plugin is installed on the Host OS system.
+
 ### Confirm VT-x or AMD-V CPU Extension Support
 
 Check your CPU on the Intel website to see if it supports VT-x. If you have an AMD processor, confirm that it supports AMD-V extensions. Then, make sure to turn on Virtualization support in your BIOS. Apple computers that have a compatible Intel processor already have the VT-x extensions enabled in EFI.

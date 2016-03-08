@@ -5,24 +5,15 @@ require_relative 'lib/better_usb.rb'
 require_relative 'lib/calculate_hardware.rb'
 require_relative 'lib/os_detector.rb'
 
+puts "Vagrant's Ruby Version: #{RUBY_VERSION}"
 
 if ARGV[0] == "up" then
   has_installed_plugins = false
 
-  unless Vagrant.has_plugin?("vagrant-vbguest")
-    system("vagrant plugin install vagrant-vbguest")
-    has_installed_plugins = true
-  end
-
-  unless Vagrant.has_plugin?("vagrant-reload")
-    system("vagrant plugin install vagrant-reload")
-    has_installed_plugins = true
-  end
-
-  unless Vagrant.has_plugin?("copy_my_conf")
-    system("vagrant plugin install copy_my_conf")
-    has_installed_plugins = true
-  end
+  #unless Vagrant.has_plugin?("vagrant-vbguest")
+  #  system("vagrant plugin install vagrant-vbguest")
+  #  has_installed_plugins = true
+  #end
 
   if has_installed_plugins then
     puts "Vagrant plugins were installed. Please run vagrant up again to install the VM"
@@ -63,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.box = "kumichou/ce_embedded"
-  config.vm.hostname = "CE-embedded-dev-env"
+  config.vm.hostname = "ce-virtual-machine"
 
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
@@ -78,6 +69,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Tell VirtualBox that we're expecting a UI for the VM
     vb.gui = true
+
+    # Give the virtual machine a name
+    vb.name = "ContextualElectronics"
 
     # Turn on USB 2.0 support, requires the VirtualBox Extras to be installed
     vb.customize ["modifyvm", :id, "--usb", "on", "--usbehci", "on"]
