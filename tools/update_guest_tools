@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+TOOLS_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source $TOOLS_DIR/common.sh
+
+SCRIPT_NAME=`basename "$0"`
+LOG_PATH_AND_NAME=${TOOLS_DIR}/${SCRIPT_NAME}.log
+
+if [ $# -eq 0 ]; then
+    print_error "Please provide a version number of VirtualBox to install the proper Guest Additions Version (ie. 5.0.16 )"
+    exit 1
+fi
+
+VBOX_VERSION=$1
+VBOXGUESTISO=VBoxGuestAdditions_${VBOX_VERSION}.iso
+
+print_message "Manually updating the VirtualBox Guest Additions to version ${VBOX_VERSION}. This will probably take a while..."
+
+sudo apt-get -y purge virtualbox-guest-x11 virtualbox-guest-utils >> $LOG_PATH_AND_NAME 2>&1
+cd ~/
+
+if [[ ! -f $VBOXGUESTISO ]]; then
+    wget http://download.virtualbox.org/virtualbox/${VBOX_VERSION}/${VBOXGUESTISO}
+
+    if [[ ! -f $VBOXGUESTISO ]]; then
+        print_error "There was a problem finding or downloading the Virtual Box Guest ISO named ${VBOXGUESTISO}"
+        exit 1
+    fi
+fi
+
+print_message "Mounting ISO and updating the Guest Addition drivers..."
+
+sudo mount $VBOXGUESTISO -o loop /mnt >> $LOG_PATH_AND_NAME 2>&1
+cd /mnt
+sudo sh VBoxLinuxAdditions.run | tee >> $LOG_PATH_AND_NAME 2>&1
+
+read -r -p "Would you like to delete the Guest Additions ISO file from the hard drive? [y/N] " response
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]]; then
+    cd ~/
+    rm $VBOXGUESTISO >> $LOG_PATH_AND_NAME 2>&1
+else
+    print_message "Leaving the ISO file in your home directory..."
+fi
+
+print_note "Please restart your Linux Virtual Machine in order for the Guest Additions to take effect."
+
+read -r -p "Would you like to restart now? [y/N] " response
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]]; then
+    sudo reboot
+else
+    printf "\n"
+    exit 0
+fi
+

@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+
+MIGRATIONS_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source $MIGRATIONS_DIR/../common.sh
+
+SCRIPT_NAME=`basename "$0"`
+LOG_PATH_AND_NAME="$MIGRATIONS_DIR/$SCRIPT_NAME.log"
+
+MAJOR=1
+MINOR=0
+BUILD=3
+
+ARM_EABI_DOWNLOAD_LINK=https://launchpad.net/gcc-arm-embedded/5.0/5-2016-q1-update/+download/gcc-arm-none-eabi-5_3-2016q1-20160330-linux.tar.bz2
+
+VERSION=$(cat /ENV_VERSION_NUMBER)
+
+if [[ $VERSION = "" ]]; then
+    print_error "You need to update to at least v1.0.3 of the Contextual Electronics development environment in order to be able to use the migration scripts..."
+    exit 1
+fi
+
+version_compare $VERSION "1.0.4"
+VERSION_RESULT=$?
+
+
+print_message "Checking which version of the Contextual Electronics development environment you have currently..."
+
+if [[ $VERSION_RESULT = 1 ]]; then
+    print_error "This script is meant to update to 1.0.4 of the CE Dev Environment."
+    exit 1
+fi
+
+print_message "It looks like you have version ${VERSION}."
+
+read -r -p "Would you like to update your development environment now? [y/N] " response
+response=${response,,}    # tolower
+if [[ ! $response =~ ^(yes|y)$ ]]; then
+    exit 0
+else
+    printf "\n"
+fi
+
+
+print_message "Removing the EmbSysRegView plugin from Eclipse"
+~/eclipse/eclipse -nosplash \
+    -application org.eclipse.equinox.p2.director \
+    -repository http://embsysregview.sourceforge.net/update/ \
+    -destination /home/vagrant/eclipse \
+    -uninstallIUs org.eclipse.cdt.embsysregview_feature.feature.group,org.eclipse.cdt.embsysregview.data_feature.feature.group >> $LOG_PATH_AND_NAME 2>&1
+
+~/eclipse/eclipse -nosplash \
+    -application org.eclipse.equinox.p2.garbagecollector.application \
+    -profile epp.package.cpp >> $LOG_PATH_AND_NAME 2>&1
+
+print_message "Installing the C/C++ Unit Test plugin in Eclipse for future use."
+~/eclipse/eclipse -nosplash \
+    -application org.eclipse.equinox.p2.director \
+    -repository http://download.eclipse.org/releases/mars/ \
+    -destination /home/vagrant/eclipse \
+    -installIUs org.eclipse.cdt.testsrunner.feature.feature.group >> $LOG_PATH_AND_NAME 2>&1
+
+
+print_message "Removing Go v1.5 since the PPA no longer exists."
+sudo apt-get -y purge golang >> $LOG_PATH_AND_NAME 2>&1
+sudo rm /etc/apt/sources.list.d/evarlast-golang1_5-trusty* >> $LOG_PATH_AND_NAME 2>&1
+
+print_message "Adding Go v1.6 via a stable PPA."
+sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable >> $LOG_PATH_AND_NAME 2>&1
+sudo apt-get -y update >> $LOG_PATH_AND_NAME 2>&1
+sudo apt-get -y install golang >> $LOG_PATH_AND_NAME 2>&1
+
+# check on ruby version?
+
+print_message "Making sure that Ruby v2.2.x is installed."
+sudo add-apt-repository -y ppa:brightbox/ruby-ng >> $LOG_PATH_AND_NAME 2>&1
+sudo apt-get -y update >> $LOG_PATH_AND_NAME 2>&1
+sudo apt-get -y install ruby2.2 >> $LOG_PATH_AND_NAME 2>&1
+echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+sudo gem install bundler ceedling neo-git-pair
+
+print_message "Updating the GNU ARM Cross Compiler Toolchain."
+update_arm_compiler $ARM_EABI_DOWNLOAD_LINK $LOG_PATH_AND_NAME
+
+print_message "Upgrading the Ubuntu system and already installed packages."
+sudo apt-get -y dist-upgrade >> $LOG_PATH_AND_NAME 2>&1
+
+print_message "Stamping the image with updated version number of 1.0.4"
+echo "1.0.4" | sudo tee /ENV_VERSION_NUMBER >> /dev/null 2>&1
+
+print_message "Finished updating!"
+print_note "We highly suggest that you restart the Virtual Machine, then be sure to launch Eclipse, and use the 'Help > Check for Updates' functionality to update all of the supporting tools already installed within Eclipse."
+
+read -r -p "Would you like to restart now? [y/N] " response
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]]; then
+    sudo reboot
+fi
+
