@@ -13,8 +13,8 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 
 ## Prerequisites before you begin building the virtual machine
 
-*  Install VirtualBox v5.0.14 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-*  Install VirtualBox Extension Pack v5.0.14 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install VirtualBox v5.0.16 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+*  Install VirtualBox Extension Pack v5.0.16 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 *  Install Vagrant v1.8.1 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 *  If you haven't already installed the above items, you will most likely be asked to reboot your computer, please do so before continuing...
 
@@ -44,7 +44,7 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 *  Bazaar
 *  stlink command line tools
 *  OpenOCD 0.10.x (most current source code)
-*  GNU ARM Tools 2015-Q3 Release
+*  GNU ARM Tools 2016-Q1 Release
 *  Firefox web browser
 *  KiCAD EDA Software Suite
 *  CoolTerm
@@ -62,7 +62,7 @@ If you encounter other problems, check out the [Gotchas](#gotchas) section below
 *  NodeJS 5.4.1 (npm 3.3.12)
 *  Perl 5.18.2
 *  OpenJDK 7
-*  Go >= 1.5
+*  Go >= 1.6
 *  Rust >= 1.4.x
 *  Elixir >= 1.2.x
 
