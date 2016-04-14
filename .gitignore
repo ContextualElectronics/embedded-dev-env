@@ -6,5 +6,4 @@ id_rsa*
 
 SharedTools/downloads
 SharedTools/log.txt
-backups/
 *.log
